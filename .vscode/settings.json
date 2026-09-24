@@ -23,8 +23,14 @@
     "board/esp32-wrover-kit-3.3v.cfg"
   ],
   "idf.port": "detect",
-  "idf.currentSetup": "C:\\esp\\v6.0.2\\esp-idf",
+  "idf.currentSetup": "C:\\esp\\v6.1-beta1\\esp-idf",
   "idf.customExtraVars": {
     "IDF_TARGET": "esp32"
-  }
+  },
+  "clangd.path": "C:\\Espressif\\tools\\esp-clangd\\esp-21.1.3_20260408\\esp-clangd\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=**",
+    "--compile-commands-dir=d:\\Documentos_variados\\Sist_Emb\\Laboratorio\\P3\\P3\\build"
+  ]
 }

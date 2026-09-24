@@ -9,7 +9,7 @@
 #include "freertos/queue.h"
 #include "esp_random.h"
 
-#include "p3.h"
+#include "P3.h"
 
 //cola para recibir los eventos de los botones desde la ISR
 static QueueHandle_t colaBotones;

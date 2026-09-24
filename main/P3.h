@@ -5,7 +5,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
-//macro para que los valores no se salgan del rango mínimo y máximo. 
+//macro para que los valorecs no se salgan del rango mínimo y máximo. 
 #define LIMITAR(valor, min, max) ((valor)< (min) ? (min): ((valor)> (max) ? (max) : (valor)))
 #define cnt_elementos(arr) (sizeof(arr)) / sizeof((arr)[0])
 
