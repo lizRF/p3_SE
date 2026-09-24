@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//// COMENTARIO LIZ 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/semphr.h"
