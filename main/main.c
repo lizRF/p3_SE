@@ -17,9 +17,9 @@ void app_main(void){
 	mensaje_t buffer;
 	uart_init(UART, UART_TX_PIN, UART_RX_PIN);
 	//establecer_rol(rol_emisor);
-	uart_puts(UART, "Ingresa un caracter: ");
+	uart_puts(UART, "\nIngresa un caracter: ");
 	uart_gets(UART, buffer.texto, MAX_CHAR);
-	uart_puts(UART, "Recibí esto: ");
+	uart_puts(UART, "Recibi esto: ");
 	uart_puts(UART, buffer.texto);
 }
 

@@ -12,10 +12,10 @@
 #define state       1
 #define MAX_CHAR    25
 
-#define UART            UART_NUM_2
+#define UART            UART_NUM_0
 #define BUFFER_SIZE     1024
-#define UART_TX_PIN     17
-#define UART_RX_PIN     16
+#define UART_TX_PIN     1
+#define UART_RX_PIN     3
 
 #define rol_emisor      1
 #define rol_receptor    2
