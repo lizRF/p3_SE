@@ -7,6 +7,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
 
+#include "MyUART.h"
 #define cnt_elementos(arr) (sizeof(arr)) / sizeof((arr)[0])
 #define DEBOUNCE_US 150000
 #define state       1

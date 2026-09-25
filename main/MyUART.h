@@ -11,11 +11,13 @@
 #define state       1
 #define MAX_CHAR    25
 
-#define UART            UART_NUM_0
+#define UART_PC            UART_NUM_0
+#define UART_COM           UART_NUM_2
 #define BUFFER_SIZE     1024
-#define UART_TX_PIN     1
-#define UART_RX_PIN     3
 
+
+#define UART_COM_TX_PIN     17
+#define UART_COM_RX_PIN     16
 
 typedef struct{
     char texto[MAX_CHAR+1]; 

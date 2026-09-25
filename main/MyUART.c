@@ -19,11 +19,10 @@ void uart_init(uart_port_t numUart, int tx_pin, int rx_pin){
 	ESP_ERROR_CHECK(uart_set_pin(numUart, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));	
 }
 
-
 char uart_getchar(uart_port_t uart_num){
 	char c;
 	while(uart_read_bytes(uart_num, &c, 1, portMAX_DELAY)!=1){
-		//Repetir hasta obtener 1 byte, la función read , regresa cuantos se leyeron
+		//Repetir hasta obtener 1 byte, la función read , regresa cuapantos se leyeron
 	}
 	return c;
 }
@@ -31,12 +30,13 @@ char uart_getchar(uart_port_t uart_num){
 void uart_getNum(uart_port_t uart_num, char * str, uint8_t max_len){
 	char c;
 	int8_t i =0;
-	while(i < (MAX_CHAR-1)){
-		c = uart_getchar(UART);
+	while(i < (max_len-1)){
+		c = uart_getchar(uart_num);
 		//Enter, terminar la cadena
 		if(c=='\r' || c== '\n'){
 			break;
 		}
+
 		//Back space
 		if(c=='\b' || c==127){
 			if(i>0){
@@ -46,26 +46,28 @@ void uart_getNum(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
+
 		//Validar caracteres permitidos
 		if(	(c >= '0' && c<= '9')){
 				str[i] =c;
 				i++;
-				uart_putchar(UART,c); //Mostrar el caracter
+				uart_putchar(uart_num,c); //Mostrar el caracter
 			}
 	}
 	str[i]='\0';
-	uart_puts(UART, "\r\n"); //Salto de linea despues del enter
+	uart_puts(uart_num, "\r\n"); //Salto de linea despues del enter
 }
 
 void uart_getAlpha(uart_port_t uart_num, char * str, uint8_t max_len){
 	char c;
 	int8_t i =0;
-	while(i < (MAX_CHAR-1)){
-		c = uart_getchar(UART);
+	while(i < (max_len-1)){
+		c = uart_getchar(uart_num);
 		//Enter, terminar la cadena
 		if(c=='\r' || c== '\n'){
 			break;
 		}
+
 		//Back space
 		if(c=='\b' || c==127){
 			if(i>0){
@@ -75,22 +77,23 @@ void uart_getAlpha(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
+
 		//Validar caracteres permitidos
 		if(	(c >= 'A' && c<= 'Z') || (c >= 'a' && c<= 'z')){
 				str[i] =c;
 				i++;
-				uart_putchar(UART,c); //Mostrar el caracter
+				uart_putchar(uart_num,c); //Mostrar el caracter
 			}
 	}
 	str[i]='\0';
-	uart_puts(UART, "\r\n"); //Salto de linea despues del enter
+	uart_puts(uart_num, "\r\n"); //Salto de linea despues del enter
 }
 
 void uart_gets(uart_port_t uart_num, char * str, uint8_t max_len){
 	char c;
 	int8_t i =0;
-	while(i < (MAX_CHAR-1)){
-		c = uart_getchar(UART);
+	while(i < (max_len-1)){
+		c = uart_getchar(uart_num);
 		//Enter, terminar la cadena
 		if(c=='\r' || c== '\n'){
 			break;
@@ -110,14 +113,14 @@ void uart_gets(uart_port_t uart_num, char * str, uint8_t max_len){
 		if(	(c >= 'A' && c<= 'Z') ||
 		   	(c >= 'a' && c<= 'z') ||
 			(c >= '0' && c<= '9') ||
-			 c == ' ' || c == '!' || c == '.' || c == '-' || c == '+'){
+			c == ' ' || c == '!' || c == '.' || c == '-' || c == '+'){
 				str[i] =c;
 				i++;
-				uart_putchar(UART,c); //Mostrar el caracter
-			}
+				uart_putchar(uart_num,c); //Mostrar el caracter
+		}
 	}
 	str[i]='\0';
-	uart_puts(UART, "\r\n"); //Salto de linea despues del enter
+	uart_puts(uart_num, "\r\n"); //Salto de linea despues del enter
 }
 
 void uart_putchar(uart_port_t uart_num, char c){
@@ -127,7 +130,7 @@ void uart_putchar(uart_port_t uart_num, char c){
 void uart_puts(uart_port_t uart_num, char * str){
 	uint8_t i =0;
 	while(str[i] != '\0'){
-		uart_putchar(UART, str[i]);
+		uart_putchar(uart_num, str[i]);
 		i++;
 	}
 }
