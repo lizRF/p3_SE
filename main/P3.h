@@ -28,7 +28,7 @@ typedef struct{
 
 
 extern QueueHandle_t cola_mensajes, cola_tramas;
-extern SemaphoreHandle_t listo_binSem;
+extern SemaphoreHandle_t listo_binSem, respuesta_binSem;
 
 void configurar_gpios(const gpio_num_t *pines, int cnt);
 void establecer_rol(int rol);
