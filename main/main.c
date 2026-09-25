@@ -14,8 +14,13 @@ QueueHandle_t cola_mensajes,cola_tramas;
 SemaphoreHandle_t listo_binSem;
 
 void app_main(void){
+	mensaje_t buffer;
 	uart_init(UART, UART_TX_PIN, UART_RX_PIN);
-	establecer_rol(rol_emisor);
+	//establecer_rol(rol_emisor);
+	uart_puts(UART, "Ingresa un caracter: ");
+	uart_gets(UART, buffer.texto, MAX_CHAR);
+	uart_puts(UART, "Recibí esto: ");
+	uart_puts(UART, buffer.texto);
 }
 
 void uart_init(uart_port_t numUart, int tx_pin, int rx_pin){
@@ -37,24 +42,12 @@ void uart_init(uart_port_t numUart, int tx_pin, int rx_pin){
 	ESP_ERROR_CHECK(uart_set_pin(numUart, tx_pin, rx_pin, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));	
 }
 
-void establecer_rol(int rol){
-	if(rol==rol_emisor){
-		cola_mensajes = xQueueCreate(1,sizeof(mensaje_t));
-		listo_binSem = xSemaphoreCreateBinary();
-		xTaskCreate(rx_mensaje_task, "rx_mensaje_task", 2048, NULL, 4, NULL);
-		xTaskCreate(tx_trama_task, "tx_trama_task", 2048, NULL, 5, NULL);
-	}
-	else{
-		cola_tramas = xQueueCreate(2,sizeof(trama_t));
-		xTaskCreate(rx_trama_task, "rx_trama_task", 2048, NULL, 4, NULL);
-		xTaskCreate(tx_pancarta_task, "tx_pancarta_task", 2048, NULL, 5, NULL);
-	}
-}
+
 
 char uart_getchar(uart_port_t uart_num){
 	char c;
 	while(uart_read_bytes(uart_num, &c, 1, portMAX_DELAY)!=1){
-		//Repetir hasta obtener 1 byte, la función read , regresa cuapantos se leyeron
+		//Repetir hasta obtener 1 byte, la función read , regresa cuantos se leyeron
 	}
 	return c;
 }
@@ -68,7 +61,6 @@ void uart_getNum(uart_port_t uart_num, char * str, uint8_t max_len){
 		if(c=='\r' || c== '\n'){
 			break;
 		}
-
 		//Back space
 		if(c=='\b' || c==127){
 			if(i>0){
@@ -78,7 +70,6 @@ void uart_getNum(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
-
 		//Validar caracteres permitidos
 		if(	(c >= '0' && c<= '9')){
 				str[i] =c;
@@ -99,7 +90,6 @@ void uart_getAlpha(uart_port_t uart_num, char * str, uint8_t max_len){
 		if(c=='\r' || c== '\n'){
 			break;
 		}
-
 		//Back space
 		if(c=='\b' || c==127){
 			if(i>0){
@@ -109,7 +99,6 @@ void uart_getAlpha(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
-
 		//Validar caracteres permitidos
 		if(	(c >= 'A' && c<= 'Z') || (c >= 'a' && c<= 'z')){
 				str[i] =c;
@@ -145,7 +134,7 @@ void uart_gets(uart_port_t uart_num, char * str, uint8_t max_len){
 		if(	(c >= 'A' && c<= 'Z') ||
 		   	(c >= 'a' && c<= 'z') ||
 			(c >= '0' && c<= '9') ||
-			c == ' ' || c == '!' || c == '.' || c == '-' || c == '+'){
+			 c == ' ' || c == '!' || c == '.' || c == '-' || c == '+'){
 				str[i] =c;
 				i++;
 				uart_putchar(UART,c); //Mostrar el caracter
