@@ -23,7 +23,9 @@ static void tx_pancarta_task(void *args);
 void app_main(void){
 	uart_init(UART_PC, 1,3);
 	uart_init(UART_COM, UART_COM_TX_PIN,UART_COM_RX_PIN);
-	establecer_rol(rol_receptor); 
+	establecer_rol(rol_emisor);
+	//establecer_rol(rol_receptor);
+
 }
 
 void establecer_rol(int rol){
@@ -172,20 +174,7 @@ static void tx_pancarta_task(void *args){
 		//Mensaje correcto
 		uart_putchar(UART_COM, 'A');
 
-<<<<<<< HEAD
 		imprimir_pancarta(UART_PC, trama.mensaje);
-=======
-		uart_puts(UART_PC, "\033[2J\033[H");
-		///Mostrar pancarta
-		uart_puts(UART_PC,"\r\n");
-		uart_puts(UART_PC,"*********\r\n");
-		uart_puts(UART_PC,"*		*\r\n");
-		uart_puts(UART_PC,"*");
-		uart_puts(UART_PC,trama.mensaje);
-		uart_puts(UART_PC,"*\r\n");
-		uart_puts(UART_PC,"*		*\r\n");
-		uart_puts(UART_PC,"*********\r\n");
->>>>>>> 8048afe5532d018a2b8437b3fba634a85decab15
 	}
 }
 

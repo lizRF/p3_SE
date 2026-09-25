@@ -46,15 +46,14 @@ void uart_getNum(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
-		//Validar que aun hay espacios para más caracteres
-		if(i<(max_len-1)){
+
 			//Validar caracteres permitidos
 			if(	(c >= '0' && c<= '9')){
 				str[i] =c;
 				i++;
 				uart_putchar(uart_num,c); //Mostrar el caracter
 			}
-		}
+		
 	}
 	str[i]='\0';
 	uart_puts(uart_num, "\r\n"); //Salto de linea despues del enter
@@ -79,15 +78,13 @@ void uart_getAlpha(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
-		//Validar que aun hay espacios para más caracteres
-		if(i<(max_len-1)){
 			//Validar caracteres permitidos
 			if(	(c >= 'A' && c<= 'Z') || (c >= 'a' && c<= 'z')){
 				str[i] =c;
 				i++;
 				uart_putchar(uart_num,c); //Mostrar el caracter
 			}
-		}
+		
 	}
 	str[i]='\0';
 	uart_puts(uart_num, "\r\n"); //Salto de linea despues del enter
@@ -112,8 +109,7 @@ void uart_gets(uart_port_t uart_num, char * str, uint8_t max_len){
 			}
 			continue;
 		}
-		//Validar que aun hay espacios para más caracteres
-		if(i<(max_len-1)){
+
 			//Validar caracteres permitidos
 			if(	(c >= 'A' && c<= 'Z') ||
 				(c >= 'a' && c<= 'z') ||
@@ -123,7 +119,7 @@ void uart_gets(uart_port_t uart_num, char * str, uint8_t max_len){
 				i++;
 				uart_putchar(uart_num,c); //Mostrar el caracter
 			}
-		}
+		
 	}
 	str[i]='\0';
 	uart_puts(uart_num, "\r\n"); //Salto de linea despues del enter
