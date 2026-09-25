@@ -27,6 +27,7 @@ typedef struct{
 } trama_t;
 
 
+
 extern QueueHandle_t cola_mensajes, cola_tramas;
 extern SemaphoreHandle_t listo_binSem;
 

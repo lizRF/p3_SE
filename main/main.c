@@ -10,6 +10,7 @@
 
 #include "P3.h"
 #include "MyUART.h"
+#include "MyPancarta.h"
 
 QueueHandle_t cola_mensajes,cola_tramas;
 SemaphoreHandle_t listo_binSem;
@@ -24,8 +25,6 @@ void app_main(void){
 	uart_init(UART_COM, UART_COM_TX_PIN,UART_COM_RX_PIN);
 	establecer_rol(rol_emisor); 
 }
-
-
 
 void establecer_rol(int rol){
 	if(rol==rol_emisor){
@@ -169,15 +168,7 @@ static void tx_pancarta_task(void *args){
 		//Mensaje correcto
 		uart_putchar(UART_COM, 'A');
 
-		///Mostrar pancarta
-		uart_puts(UART_PC,"\r\n");
-		uart_puts(UART_PC,"*********\r\n");
-		uart_puts(UART_PC,"*		*\r\n");
-		uart_puts(UART_PC,"*");
-		uart_puts(UART_PC,trama.mensaje);
-		uart_puts(UART_PC,"*\r\n");
-		uart_puts(UART_PC,"*		*\r\n");
-		uart_puts(UART_PC,"*********\r\n");
+		imprimir_pancarta(UART_PC, trama.mensaje);
 	}
 }
 
