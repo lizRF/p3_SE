@@ -13,7 +13,7 @@
 #include "MyPancarta.h"
 
 QueueHandle_t cola_mensajes,cola_tramas;
-SemaphoreHandle_t listo_binSem;
+SemaphoreHandle_t listo_binSem, respuesta_binSem;
 
 static void rx_mensaje_task(void *args);
 static void tx_trama_task(void *args);
@@ -23,13 +23,14 @@ static void tx_pancarta_task(void *args);
 void app_main(void){
 	uart_init(UART_PC, 1,3);
 	uart_init(UART_COM, UART_COM_TX_PIN,UART_COM_RX_PIN);
-	establecer_rol(rol_emisor); 
+	establecer_rol(rol_receptor); 
 }
 
 void establecer_rol(int rol){
 	if(rol==rol_emisor){
 		cola_mensajes = xQueueCreate(1,sizeof(mensaje_t));
 		listo_binSem = xSemaphoreCreateBinary();
+		respuesta_binSem = xSemaphoreCreateBinary();
 		xTaskCreate(rx_mensaje_task, "rx_mensaje_task", 2048, NULL, 4, NULL);
 		xTaskCreate(tx_trama_task, "tx_trama_task", 2048, NULL, 5, NULL);
 	}
@@ -40,11 +41,10 @@ void establecer_rol(int rol){
 	}
 }
 
-
-
 static void rx_mensaje_task(void *args){
 	mensaje_t mensaje;
 	while(1){
+		uart_flush_input(UART_PC);
 		uart_puts(UART_PC, "Ingrese mensaje: ");
 		uart_gets(UART_PC, mensaje.texto,MAX_CHAR+1);
 
@@ -53,6 +53,9 @@ static void rx_mensaje_task(void *args){
 
 		//Avisar si si ya hay un mensaje listo
 		xSemaphoreGive(listo_binSem);
+
+		//Esperar a que termine el envío
+		xSemaphoreTake(respuesta_binSem, portMAX_DELAY);
 	}
 }
 
@@ -96,6 +99,7 @@ static void tx_trama_task(void *args){
 		else if(respuesta == 'N'){
 			uart_puts(UART_PC, "Error al enviar mensaje. \r\n");
 		}
+		xSemaphoreGive(respuesta_binSem);
 	}
 }
 
@@ -168,7 +172,20 @@ static void tx_pancarta_task(void *args){
 		//Mensaje correcto
 		uart_putchar(UART_COM, 'A');
 
+<<<<<<< HEAD
 		imprimir_pancarta(UART_PC, trama.mensaje);
+=======
+		uart_puts(UART_PC, "\033[2J\033[H");
+		///Mostrar pancarta
+		uart_puts(UART_PC,"\r\n");
+		uart_puts(UART_PC,"*********\r\n");
+		uart_puts(UART_PC,"*		*\r\n");
+		uart_puts(UART_PC,"*");
+		uart_puts(UART_PC,trama.mensaje);
+		uart_puts(UART_PC,"*\r\n");
+		uart_puts(UART_PC,"*		*\r\n");
+		uart_puts(UART_PC,"*********\r\n");
+>>>>>>> 8048afe5532d018a2b8437b3fba634a85decab15
 	}
 }
 
